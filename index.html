@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beauty Hub — Be Beautiful</title>
+  <meta name="description" content="Beauty Hub — Premium hair, makeup, nails, and skincare services. Book your appointment today." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #E91E8C;
+      --cyan:   #00C2E0;
+      --yellow: #FFD600;
+      --dark:   #1A1A1A;
+      --gray:   #6B7280;
+      --light:  #F9FAFB;
+      --white:  #FFFFFF;
+      --pink-light: #FFF0F8;
+      --cyan-light: #E6FAFD;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(233,30,140,0.1);
+      transition: box-shadow 0.3s;
+    }
+    .nav.scrolled { box-shadow: 0 4px 24px rgba(233,30,140,0.12); }
+
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--dark);
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--pink); }
+
+    .btn-book {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--pink); color: var(--white) !important;
+      padding: 10px 24px; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; transition: all 0.2s;
+      cursor: pointer; border: none; white-space: nowrap;
+    }
+    .btn-book:hover {
+      background: #C91078;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(233,30,140,0.4);
+    }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .hamburger span { width: 24px; height: 2px; background: var(--dark); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; position: fixed;
+      top: 68px; left: 0; right: 0; z-index: 99;
+      background: var(--white);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding: 20px 24px 28px;
+      flex-direction: column; gap: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; color: var(--dark);
+      font-size: 1rem; font-weight: 500;
+      padding: 8px 0; border-bottom: 1px solid var(--light); cursor: pointer;
+    }
+    .mobile-menu .btn-book { text-align: center; justify-content: center; margin-top: 8px; }
+
+    /* ── HERO SLIDESHOW ──────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 600px;
+      overflow: hidden;
+    }
+
+    /* Slide backgrounds */
+    .hero-slides { position: absolute; inset: 0; }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      transform: scale(1.05);
+      transition: opacity 1.2s ease, transform 6s ease;
+    }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .hero-slide:nth-child(1) {
+      background-image: url('https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=1920&q=85&auto=format&fit=crop');
+    }
+    .hero-slide:nth-child(2) {
+      background-image: url('https://images.unsplash.com/photo-1606415918835-88d0614e75ad?w=1920&q=85&auto=format&fit=crop');
+    }
+    .hero-slide:nth-child(3) {
+      background-image: url('https://images.unsplash.com/photo-1613876215075-276fd62c89a4?w=1920&q=85&auto=format&fit=crop');
+    }
+    .hero-slide:nth-child(4) {
+      background-image: url('https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1920&q=85&auto=format&fit=crop');
+    }
+
+    /* Gradient overlay */
+    .hero-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(26,26,26,0.75) 0%,
+        rgba(26,26,26,0.55) 50%,
+        rgba(233,30,140,0.25) 100%
+      );
+    }
+
+    /* Side arrows */
+    .slide-arrow {
+      position: absolute; top: 50%; z-index: 10;
+      transform: translateY(-50%);
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .slide-arrow:hover { background: var(--pink); border-color: var(--pink); }
+    .slide-arrow.prev { left: 24px; }
+    .slide-arrow.next { right: 24px; }
+
+    /* Dot indicators */
+    .slide-dots {
+      position: absolute; bottom: 32px; left: 50%;
+      transform: translateX(-50%); z-index: 10;
+      display: flex; gap: 10px; align-items: center;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      border: none; cursor: pointer;
+      transition: all 0.3s;
+      padding: 0;
+    }
+    .dot.active {
+      background: var(--pink);
+      width: 28px; border-radius: 5px;
+    }
+
+    /* Hero content */
+    .hero-content {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex; align-items: center;
+      padding: 100px 24px 80px;
+    }
+
+    .hero-inner {
+      max-width: 1200px; width: 100%; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,214,0,0.15);
+      border: 1px solid rgba(255,214,0,0.5);
+      color: var(--yellow);
+      padding: 6px 16px; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge span { width: 6px; height: 6px; background: var(--yellow); border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800; color: var(--white);
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      background: linear-gradient(90deg, var(--pink), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,0.78);
+      margin-bottom: 36px; max-width: 480px;
+      font-weight: 300; line-height: 1.75;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--pink), #C91078);
+      color: var(--white); padding: 16px 36px; border-radius: 50px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      transition: all 0.3s; cursor: pointer;
+      box-shadow: 0 8px 32px rgba(233,30,140,0.45);
+    }
+    .btn-hero:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(233,30,140,0.55); }
+
+    .btn-hero-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      color: var(--white); padding: 15px 30px; border-radius: 50px;
+      font-weight: 600; font-size: 1rem;
+      text-decoration: none; transition: all 0.3s; cursor: pointer;
+    }
+    .btn-hero-outline:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.6); }
+
+    .hero-stats { display: flex; gap: 36px; margin-top: 44px; flex-wrap: wrap; }
+    .hero-stat { }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 800; color: var(--white); display: block;
+    }
+    .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* Right panel: slide caption card */
+    .hero-caption-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 32px;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+
+    .caption-slide { display: none; }
+    .caption-slide.active { display: block; }
+
+    .caption-label {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--cyan); margin-bottom: 8px;
+    }
+    .caption-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: var(--white);
+      margin-bottom: 8px;
+    }
+    .caption-desc { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.65; }
+
+    .caption-divider { height: 1px; background: rgba(255,255,255,0.1); }
+
+    .caption-meta { display: flex; align-items: center; gap: 16px; }
+    .caption-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(233,30,140,0.2);
+      border: 1px solid rgba(233,30,140,0.3);
+      color: #F472B6; padding: 6px 14px; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .caption-book {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--yellow); color: var(--dark);
+      padding: 8px 18px; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 700;
+      text-decoration: none; transition: all 0.2s; cursor: pointer;
+    }
+    .caption-book:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,214,0,0.4); }
+
+    /* ── COLOR BAR ───────────────────────────────────────── */
+    .color-bar {
+      height: 5px;
+      background: linear-gradient(90deg, var(--pink) 0%, var(--cyan) 50%, var(--yellow) 100%);
+    }
+
+    /* ── SECTION SHARED ─────────────────────────────────── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--pink);
+      margin-bottom: 12px;
+    }
+    .section-tag::before { content: ''; width: 24px; height: 2px; background: var(--pink); border-radius: 2px; }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800; color: var(--dark);
+      margin-bottom: 16px; line-height: 1.15;
+    }
+    .section-sub { font-size: 1.05rem; color: var(--gray); max-width: 560px; line-height: 1.7; }
+
+    /* Scroll animations */
+    .fade-in { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+    .fade-in-delay-5 { transition-delay: 0.5s; }
+    .fade-in-delay-6 { transition-delay: 0.6s; }
+
+    /* ── SERVICES ────────────────────────────────────────── */
+    .services { background: var(--light); }
+    .services-header { margin-bottom: 52px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1.5px solid transparent;
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .service-card:hover {
+      border-color: rgba(233,30,140,0.25);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 64px rgba(233,30,140,0.13);
+    }
+
+    .service-img {
+      width: 100%; height: 200px;
+      overflow: hidden; position: relative;
+    }
+    .service-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .service-card:hover .service-img img { transform: scale(1.07); }
+
+    /* Coloured strip at bottom of image */
+    .service-img::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    }
+    .service-card:nth-child(1) .service-img::after,
+    .service-card:nth-child(4) .service-img::after { background: var(--pink); }
+    .service-card:nth-child(2) .service-img::after,
+    .service-card:nth-child(5) .service-img::after { background: var(--cyan); }
+    .service-card:nth-child(3) .service-img::after,
+    .service-card:nth-child(6) .service-img::after { background: var(--yellow); }
+
+    .service-body { padding: 24px 24px 28px; }
+
+    .service-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .si-pink   { background: rgba(233,30,140,0.1); }
+    .si-cyan   { background: rgba(0,194,224,0.1); }
+    .si-yellow { background: rgba(255,214,0,0.15); }
+
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;
+    }
+    .service-desc { font-size: 0.88rem; color: var(--gray); line-height: 1.65; }
+
+    /* ── WHY CHOOSE US ───────────────────────────────────── */
+    .why { background: var(--white); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 56px; }
+
+    .why-card {
+      text-align: center; padding: 40px 28px;
+      border-radius: 24px; transition: transform 0.3s;
+    }
+    .why-card:hover { transform: translateY(-4px); }
+    .why-card.pink-bg  { background: var(--pink-light); }
+    .why-card.cyan-bg  { background: var(--cyan-light); }
+    .why-card.yellow-bg { background: #FFFDE7; }
+
+    .why-icon-wrap {
+      width: 72px; height: 72px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .wi-pink   { background: rgba(233,30,140,0.15); }
+    .wi-cyan   { background: rgba(0,194,224,0.15); }
+    .wi-yellow { background: rgba(255,214,0,0.2); }
+
+    .why-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+    .why-desc { font-size: 0.92rem; color: var(--gray); line-height: 1.7; }
+
+    /* ── TESTIMONIALS ────────────────────────────────────── */
+    .testimonials { background: var(--light); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+
+    .testi-card {
+      background: var(--white); border-radius: 24px; padding: 32px 28px;
+      border: 1.5px solid transparent; transition: all 0.3s;
+    }
+    .testi-card:hover { border-color: rgba(233,30,140,0.2); box-shadow: 0 12px 40px rgba(233,30,140,0.1); }
+
+    .stars { display: flex; gap: 4px; margin-bottom: 16px; }
+    .star { color: var(--yellow); font-size: 1.05rem; }
+
+    .testi-text { font-size: 0.95rem; color: #374151; line-height: 1.75; margin-bottom: 24px; font-style: italic; }
+
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; font-size: 1.1rem; color: var(--white); flex-shrink: 0;
+    }
+    .av-pink   { background: linear-gradient(135deg, var(--pink), #C91078); }
+    .av-cyan   { background: linear-gradient(135deg, var(--cyan), #0099B8); }
+    .av-yellow { background: linear-gradient(135deg, #F59E0B, #D97706); }
+
+    .testi-name { font-weight: 700; font-size: 0.95rem; color: var(--dark); }
+    .testi-role { font-size: 0.8rem; color: var(--gray); }
+
+    /* ── CTA ─────────────────────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--pink) 0%, #C91078 40%, #7B0080 100%);
+      padding: 96px 24px; text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-section::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: rgba(255,214,0,0.25); border-radius: 50%; }
+    .cta-section::after  { content: ''; position: absolute; bottom: -80px; left: -40px; width: 250px; height: 250px; background: rgba(0,194,224,0.2); border-radius: 50%; }
+    .cta-inner { position: relative; z-index: 2; }
+
+    .cta-tag {
+      display: inline-block; background: rgba(255,255,255,0.2); color: var(--white);
+      padding: 6px 18px; border-radius: 50px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .cta-title { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: var(--white); margin-bottom: 16px; line-height: 1.15; }
+    .cta-sub { font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--yellow); color: var(--dark);
+      padding: 18px 44px; border-radius: 50px;
+      font-weight: 800; font-size: 1.05rem;
+      text-decoration: none; transition: all 0.3s; cursor: pointer;
+      box-shadow: 0 8px 32px rgba(255,214,0,0.4);
+    }
+    .btn-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(255,214,0,0.5); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer { background: var(--dark); color: rgba(255,255,255,0.6); padding: 56px 24px 32px; }
+
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 12px;
+    }
+    .footer-tagline { font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6; }
+
+    .social-links { display: flex; gap: 12px; }
+    .social-link {
+      width: 40px; height: 40px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; color: rgba(255,255,255,0.6); transition: all 0.2s; cursor: pointer;
+    }
+    .social-link:hover { background: var(--pink); border-color: var(--pink); color: var(--white); transform: translateY(-2px); }
+
+    .footer-col h4 {
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--white); margin-bottom: 20px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { text-decoration: none; color: rgba(255,255,255,0.55); font-size: 0.9rem; transition: color 0.2s; cursor: pointer; }
+    .footer-links a:hover { color: var(--pink); }
+
+    .footer-bottom {
+      max-width: 1200px; margin: 28px auto 0;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; flex-wrap: wrap; gap: 8px;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-caption-card { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-inner .btn-book { display: none; }
+      .hamburger { display: flex; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-content { text-align: center; }
+      .slide-arrow { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; align-items: center; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 64px 20px; }
+      .hero-sub { font-size: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-in { transition: none; }
+      .hero-slide { transition: opacity 0.3s; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="nav" id="navbar" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="Beauty Hub Home">
+      <img src="logo.jpeg" alt="Beauty Hub" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener" class="btn-book">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book Now
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#services" class="mobile-link">Services</a>
+  <a href="#why" class="mobile-link">About</a>
+  <a href="#testimonials" class="mobile-link">Reviews</a>
+  <a href="#contact" class="mobile-link">Contact</a>
+  <a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener" class="btn-book">Book Appointment</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero" aria-label="Hero">
+  <!-- Slides -->
+  <div class="hero-slides" aria-hidden="true">
+    <div class="hero-slide active"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+    <div class="hero-slide"></div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- Prev / Next -->
+  <button class="slide-arrow prev" id="slidePrev" aria-label="Previous slide">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="slide-arrow next" id="slideNext" aria-label="Next slide">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Dots -->
+  <div class="slide-dots" role="tablist" aria-label="Slide navigation">
+    <button class="dot active" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
+    <button class="dot"        role="tab" aria-selected="false" aria-label="Slide 2"></button>
+    <button class="dot"        role="tab" aria-selected="false" aria-label="Slide 3"></button>
+    <button class="dot"        role="tab" aria-selected="false" aria-label="Slide 4"></button>
+  </div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <div class="hero-inner">
+      <!-- Left: main text -->
+      <div>
+        <div class="hero-badge fade-in">
+          <span aria-hidden="true"></span>
+          Premium Beauty Services
+        </div>
+        <h1 class="fade-in fade-in-delay-1">
+          Where Beauty<br/>Meets <em>Confidence</em>
+        </h1>
+        <p class="hero-sub fade-in fade-in-delay-2">
+          Step into a world of elegance at Beauty Hub — where expert stylists transform your look and elevate your confidence. Every visit, a masterpiece.
+        </p>
+        <div class="hero-actions fade-in fade-in-delay-3">
+          <a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener" class="btn-hero">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Book Appointment
+          </a>
+          <a href="#services" class="btn-hero-outline">
+            Our Services
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </a>
+        </div>
+        <div class="hero-stats fade-in fade-in-delay-4">
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="500">0</span>
+            <span class="hero-stat-label">Happy Clients</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="6">0</span>
+            <span class="hero-stat-label">Expert Stylists</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="10">0</span>
+            <span class="hero-stat-label">Services Offered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: rotating caption card -->
+      <div class="hero-caption-card fade-in fade-in-delay-2" aria-live="polite">
+        <div class="caption-slide active">
+          <div class="caption-label">Hair Styling</div>
+          <div class="caption-title">Cuts, Colour & Blowouts</div>
+          <div class="caption-desc">Our master stylists craft looks that turn heads — from bold transformations to everyday elegance.</div>
+        </div>
+        <div class="caption-slide">
+          <div class="caption-label">Makeup</div>
+          <div class="caption-title">Bridal, Glam & Everyday</div>
+          <div class="caption-desc">Professional makeup application for every occasion — because you deserve to look your absolute best.</div>
+        </div>
+        <div class="caption-slide">
+          <div class="caption-label">Nail Care</div>
+          <div class="caption-title">Manicures, Pedicures & Art</div>
+          <div class="caption-desc">Treat your hands and feet to luxurious care with our premium nail services and creative nail art.</div>
+        </div>
+        <div class="caption-slide">
+          <div class="caption-label">Manicure &amp; Pedicure</div>
+          <div class="caption-title">Nails Done to Perfection</div>
+          <div class="caption-desc">Gel, acrylic, nail art, and luxurious pedicures — hands and feet pampered to perfection.</div>
+        </div>
+
+        <div class="caption-divider"></div>
+        <div class="caption-meta">
+          <span class="caption-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            5.0 Rated
+          </span>
+          <a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener" class="caption-book">
+            Book Now
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="color-bar" aria-hidden="true"></div>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="services" aria-labelledby="services-heading">
+  <div class="container">
+    <div class="services-header">
+      <div class="section-tag fade-in">Our Services</div>
+      <h2 class="section-title fade-in fade-in-delay-1" id="services-heading">
+        Everything You Need<br/>to Look &amp; Feel Amazing
+      </h2>
+      <p class="section-sub fade-in fade-in-delay-2">
+        From head to toe, our expert team delivers premium beauty services tailored to bring out your best self.
+      </p>
+    </div>
+
+    <div class="services-grid">
+
+      <!-- Hair Styling -->
+      <div class="service-card fade-in fade-in-delay-1">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1598363576971-69666ab1130a?w=600&q=80&auto=format&fit=crop" alt="Black woman getting hair styled in salon" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-pink">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/><path d="M21 12c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/><line x1="9" y1="12" x2="15" y2="12"/></svg>
+          </div>
+          <div class="service-name">Hair Styling</div>
+          <div class="service-desc">From sleek blowouts to stunning cuts and colour transformations — let our stylists craft your perfect look.</div>
+        </div>
+      </div>
+
+      <!-- Makeup -->
+      <div class="service-card fade-in fade-in-delay-2">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1600144559281-53d1dee79a99?w=600&q=80&auto=format&fit=crop" alt="Professional makeup being applied on a Black woman" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00C2E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="service-name">Makeup</div>
+          <div class="service-desc">Professional makeup for every occasion — bridal, editorial, everyday glam. You deserve to shine.</div>
+        </div>
+      </div>
+
+      <!-- Manicure -->
+      <div class="service-card fade-in fade-in-delay-3">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1604654894611-6973b376cbde?w=600&q=80&auto=format&fit=crop" alt="Black woman manicure nail art" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="service-name">Manicure</div>
+          <div class="service-desc">Gel, acrylic, nail art and more — beautiful hands crafted by skilled technicians using premium products.</div>
+        </div>
+      </div>
+
+      <!-- Pedicure -->
+      <div class="service-card fade-in fade-in-delay-1">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1632765866070-3fadf25d3d5b?w=600&q=80&auto=format&fit=crop" alt="Relaxing pedicure treatment" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-pink">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="service-name">Pedicure</div>
+          <div class="service-desc">Treat your feet to a luxurious pedicure — soaking, scrubbing, shaping, and polishing for perfectly pampered feet.</div>
+        </div>
+      </div>
+
+      <!-- Braiding -->
+      <div class="service-card fade-in fade-in-delay-2">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1572955304332-bf714bd49add?w=600&q=80&auto=format&fit=crop" alt="Expert braiding on a Black woman" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00C2E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+          </div>
+          <div class="service-name">Braiding</div>
+          <div class="service-desc">Expert braiding styles — box braids, cornrows, twists, and more. Beautiful, lasting, and protective.</div>
+        </div>
+      </div>
+
+      <!-- Eyelashes -->
+      <div class="service-card fade-in fade-in-delay-3">
+        <div class="service-img">
+          <img src="https://images.unsplash.com/photo-1637851362556-46d07c374023?w=600&q=80&auto=format&fit=crop" alt="Eyelash extensions on a Black woman" loading="lazy" />
+        </div>
+        <div class="service-body">
+          <div class="service-icon si-yellow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9A000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="service-name">Eyelashes</div>
+          <div class="service-desc">Lash extensions, lifts, and tints that frame your eyes beautifully — wake up flawless every day.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE US ── -->
+<section class="why" id="why" aria-labelledby="why-heading">
+  <div class="container">
+    <div class="section-tag fade-in">Why Beauty Hub</div>
+    <h2 class="section-title fade-in fade-in-delay-1" id="why-heading">The Beauty Hub Difference</h2>
+    <p class="section-sub fade-in fade-in-delay-2">We don't just do beauty — we craft experiences that leave you feeling like the best version of yourself.</p>
+    <div class="why-grid">
+      <div class="why-card pink-bg fade-in fade-in-delay-1">
+        <div class="why-icon-wrap wi-pink">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E91E8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="why-title">Expert Stylists</div>
+        <div class="why-desc">Our certified professionals bring years of experience and passion to every appointment, ensuring outstanding results every time.</div>
+      </div>
+      <div class="why-card cyan-bg fade-in fade-in-delay-2">
+        <div class="why-icon-wrap wi-cyan">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00C2E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="why-title">Premium Products</div>
+        <div class="why-desc">We use only the finest salon-grade products that nourish, protect, and enhance your hair and skin for long-lasting beauty.</div>
+      </div>
+      <div class="why-card yellow-bg fade-in fade-in-delay-3">
+        <div class="why-icon-wrap wi-yellow">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#C9A000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="why-title">Relaxing Atmosphere</div>
+        <div class="why-desc">Our warm, welcoming salon is designed to be your sanctuary — where you can unwind, refresh, and leave completely renewed.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="color-bar" aria-hidden="true"></div>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="section-tag fade-in">Client Love</div>
+    <h2 class="section-title fade-in fade-in-delay-1" id="testimonials-heading">What Our Clients Say</h2>
+    <p class="section-sub fade-in fade-in-delay-2">Real stories from our happy clients who trust Beauty Hub with their look.</p>
+    <div class="testimonials-grid">
+      <div class="testi-card fade-in fade-in-delay-1">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+        </div>
+        <p class="testi-text">"Absolutely love my hair! The stylists at Beauty Hub are incredibly talented. I walked in with a vision and walked out with exactly that — plus even more confidence!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-pink" aria-hidden="true">A</div>
+          <div><div class="testi-name">Abena M.</div><div class="testi-role">Regular Client</div></div>
+        </div>
+      </div>
+      <div class="testi-card fade-in fade-in-delay-2">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+        </div>
+        <p class="testi-text">"The atmosphere here is just so relaxing. I came in stressed and left feeling like a queen. The nail art and facial combo was everything. Will definitely be back!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-cyan" aria-hidden="true">E</div>
+          <div><div class="testi-name">Efua K.</div><div class="testi-role">Loyal Client</div></div>
+        </div>
+      </div>
+      <div class="testi-card fade-in fade-in-delay-3">
+        <div class="stars" aria-label="5 out of 5 stars">
+          <span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span><span class="star" aria-hidden="true">★</span>
+        </div>
+        <p class="testi-text">"My bridal makeup was flawless! Everyone at the wedding kept complimenting me. Beauty Hub made my special day even more magical. Thank you so much!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar av-yellow" aria-hidden="true">S</div>
+          <div><div class="testi-name">Serwa A.</div><div class="testi-role">Bridal Client</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" id="contact" aria-labelledby="cta-heading">
+  <div class="cta-inner">
+    <div class="cta-tag fade-in">Ready to Glow?</div>
+    <h2 class="cta-title fade-in fade-in-delay-1" id="cta-heading">Book Your<br/>Beauty Experience Today</h2>
+    <p class="cta-sub fade-in fade-in-delay-2">Don't wait — your best look is just one appointment away. Book online in seconds and let us take care of the rest.</p>
+    <a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener" class="btn-cta fade-in fade-in-delay-3">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book Appointment Now
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Beauty Hub</div>
+      <p class="footer-tagline">Be Beautiful — Premium beauty services crafted with passion, delivered with love. Your transformation starts here.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul class="footer-links">
+        <li><a href="#services">Hair Styling</a></li>
+        <li><a href="#services">Makeup</a></li>
+        <li><a href="#services">Manicure</a></li>
+        <li><a href="#services">Pedicure</a></li>
+        <li><a href="#services">Braiding</a></li>
+        <li><a href="#services">Eyelashes</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Visit Us</h4>
+      <ul class="footer-links">
+        <li><a href="https://book.beautyhubapp.online/Beauty%20Hub" target="_blank" rel="noopener">Book Online</a></li>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="tel:">Call Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 Beauty Hub. All rights reserved.</span>
+    <span>Made with <span style="color:var(--pink)">♥</span> — <em>Be Beautiful</em></span>
+  </div>
+</footer>
+
+<script>
+  // ── Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+  });
+  document.querySelectorAll('.mobile-link, .mobile-menu .btn-book').forEach(l => {
+    l.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // ── Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const t = document.querySelector(this.getAttribute('href'));
+      if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }
+    });
+  });
+
+  // ── Hero Slideshow
+  const slides   = document.querySelectorAll('.hero-slide');
+  const dots     = document.querySelectorAll('.dot');
+  const captions = document.querySelectorAll('.caption-slide');
+  let current = 0;
+  let timer;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    dots[current].setAttribute('aria-selected', 'false');
+    if (captions[current]) captions[current].classList.remove('active');
+
+    current = (n + slides.length) % slides.length;
+
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    dots[current].setAttribute('aria-selected', 'true');
+    if (captions[current]) captions[current].classList.add('active');
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  document.getElementById('slideNext').addEventListener('click', () => { goTo(current + 1); startTimer(); });
+  document.getElementById('slidePrev').addEventListener('click', () => { goTo(current - 1); startTimer(); });
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
+
+  startTimer();
+
+  // Pause on hover
+  document.querySelector('.hero').addEventListener('mouseenter', () => clearInterval(timer));
+  document.querySelector('.hero').addEventListener('mouseleave', startTimer);
+
+  // ── Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Hero elements trigger immediately
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-in').forEach(el => el.classList.add('visible'));
+  }, 150);
+
+  // ── Count-up animation
+  function animateCount(el, target) {
+    let val = 0;
+    const step = target / 80;
+    const t = setInterval(() => {
+      val += step;
+      if (val >= target) { el.textContent = target + '+'; clearInterval(t); }
+      else el.textContent = Math.floor(val) + '+';
+    }, 18);
+  }
+
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCount(e.target, parseInt(e.target.dataset.count));
+        countObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+</script>
+</body>
+</html>
